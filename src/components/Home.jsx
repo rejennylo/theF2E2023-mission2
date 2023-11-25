@@ -1,10 +1,10 @@
-import logo from '../../public/logo@2x.png';
-import chVampire from '../../public/figures/person_vampire_3d_default 1.png';
-import chSuperW from '../../public/figures/woman_supervillain_3d_default 1.png';
-import chTroll from '../../public/figures/troll_3d 1.png';
-import chMage from '../../public/figures/person_mage_3d_default 1.png';
-import chElf from '../../public/figures/man_elf_3d_medium-light 1.png';
-import chZombieW from '../../public/figures/woman_zombie_3d 1.png';
+import logo from '/logo@2x.png';
+import chVampire from '/figures/person_vampire_3d_default 1.png';
+import chSuperW from '/figures/woman_supervillain_3d_default 1.png';
+import chTroll from '/figures/troll_3d 1.png';
+import chMage from '/figures/person_mage_3d_default 1.png';
+import chElf from '/figures/man_elf_3d_medium-light 1.png';
+import chZombieW from '/figures/woman_zombie_3d 1.png';
 
 export default function Home() {
   const years = [1996, 2000, 2004, 2008, 2012, 2016, 2020];

@@ -5,5 +5,5 @@ import svgr from '@svgr/rollup';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), svgr()],
-  // base:'/theF2E2023-mission2/'
+  base:'/theF2E2023-mission2/'
 });
