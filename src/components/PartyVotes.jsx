@@ -1,6 +1,6 @@
 import { BarChart } from "./charts/BarChart";
 
-const PartyVotes = ({ barChartData, partys }) => {
+const PartyVotes = ({ partyVotesData, partys }) => {
   return (
     <section
       name="party-votes-wrap"
@@ -27,7 +27,7 @@ const PartyVotes = ({ barChartData, partys }) => {
         </span>
       </div>
       <div name="chart-area" className="w-full overflow-auto">
-        <BarChart data={barChartData} svgWidth="500" svgHeight="234" />
+        <BarChart data={partyVotesData} svgWidth="500" svgHeight="234" />
       </div>
     </section>
   );

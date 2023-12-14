@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 *{
-  /* outline: orange solid 1px; */
+  outline: orange solid 1px;
 }
