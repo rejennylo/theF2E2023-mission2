@@ -16,18 +16,18 @@ const PartyVotes = ({ partyVotesData, partys }) => {
         <span name="party-tags">
           {partys.map((party, i) => {
             return (
-              <span key={i} className="ml-3">
+              <span key={i} className="ml-2 md:ml-3">
                 <span
                   className={`inline-block h-3 w-3 rounded-full ${party.color}`}
                 ></span>
-                <span className="ml-1">{party.name}</span>
+                <span className="ml-1 text-sm md:text-base">{party.name}</span>
               </span>
             );
           })}
         </span>
       </div>
-      <div name="chart-area" className="w-full overflow-auto">
-        <BarChart data={partyVotesData} svgWidth="500" svgHeight="234" />
+      <div name="chart-area" className="h-[250px] w-full overflow-auto">
+        <BarChart data={partyVotesData} />
       </div>
     </section>
   );

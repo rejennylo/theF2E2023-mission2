@@ -43,8 +43,6 @@ const Candidate = ({ votesPercentageData }) => {
         </div>
         <div className="flex justify-center overflow-hidden rounded-full">
             <StackedBarChart
-              svgWidth="455"
-              svgHeight="20"
               data={votesPercentageData}
             />
         </div>

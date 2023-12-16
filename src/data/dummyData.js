@@ -51,7 +51,7 @@ export const votesPercentageData = [
     votes: "1111",
     fillColor: "fill-role-blue",
     bgColor: "bg-role-blue",
-    image: "figures/person_vampire_3d_default 1.png",
+    image: "./figures/person_vampire_3d_default 1.png",
   },
   {
     party: "BB黨",
@@ -60,7 +60,7 @@ export const votesPercentageData = [
     votes: "1111",
     fillColor: "fill-role-orange",
     bgColor: "bg-role-orange",
-    image: "figures/man_elf_3d_medium-light 1.png",
+    image: "./figures/man_elf_3d_medium-light 1.png",
   },
   {
     party: "CC黨",
@@ -69,6 +69,6 @@ export const votesPercentageData = [
     votes: "1111",
     fillColor: "fill-role-green",
     bgColor: "bg-role-green",
-    image: "figures/troll_3d 1.png",
+    image: "./figures/troll_3d 1.png",
   },
 ];
