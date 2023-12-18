@@ -72,3 +72,9 @@ export const votesPercentageData = [
     image: "./figures/troll_3d 1.png",
   },
 ];
+
+export const totalVotes = {
+    '投票數': 123456789,
+    '投票率': 66.234,
+    '有效票數': 123456700,
+    '無效票數': 89,}
