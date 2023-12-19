@@ -37,6 +37,51 @@ export const partyVotesData = [
   },
 ];
 
+export const lineChartData = [
+  {
+    candidate: "A",
+    values: [
+      { year: "1996", value: 42 },
+      { year: "2000", value: 30 },
+      { year: "2004", value: 20 },
+      { year: "2008", value: 34 },
+      { year: "2012", value: 49 },
+      { year: "2016", value: 32 },
+      { year: "2020", value: 25 },
+    ],
+    fillColor: "fill-role-blue",
+    strokeColor: "stroke-role-blue",
+  },
+  {
+    candidate: "B",
+    values: [
+      { year: "1996", value: 20 },
+      { year: "2000", value: 20 },
+      { year: "2004", value: 51 },
+      { year: "2008", value: 34 },
+      { year: "2012", value: 26 },
+      { year: "2016", value: 29 },
+      { year: "2020", value: 32 },
+    ],
+    fillColor: "fill-role-orange",
+    strokeColor: "stroke-role-orange",
+  },
+  {
+    candidate: "C",
+    values: [
+      { year: "1996", value: 20 },
+      { year: "2000", value: 10 },
+      { year: "2004", value: 40 },
+      { year: "2008", value: 30 },
+      { year: "2012", value: 42 },
+      { year: "2016", value: 22 },
+      { year: "2020", value: 35 },
+    ],
+    fillColor: "fill-role-green",
+    strokeColor: "stroke-role-green",
+  },
+];
+
 export const partysData = [
   { name: "蝙蝠黨", color: "bg-role-blue" },
   { name: "弓箭黨", color: "bg-role-orange" },
@@ -74,7 +119,8 @@ export const votesPercentageData = [
 ];
 
 export const totalVotes = {
-    '投票數': 123456789,
-    '投票率': 66.234,
-    '有效票數': 123456700,
-    '無效票數': 89,}
+  投票數: 123456789,
+  投票率: 66.234,
+  有效票數: 123456700,
+  無效票數: 89,
+};

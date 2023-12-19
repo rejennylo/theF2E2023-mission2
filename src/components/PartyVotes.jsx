@@ -1,18 +1,17 @@
 import { BarChart } from "./charts/BarChart";
+import { LineChart } from "./charts/LineChart";
 
-const PartyVotes = ({ partyVotesData, partys }) => {
+const Container = ({ children, partys, title }) => {
   return (
-    <section
-      name="party-votes-wrap"
+    <div
+      name="party-votes-container"
       className="border-grap-200 w-full rounded-xl border p-5"
     >
       <div
         name="tatle-area"
         className="mb-3 flex w-full items-center justify-between py-2"
       >
-        <h3 className="text-xl font-semibold text-primary-gray">
-          歷屆政黨得票數
-        </h3>
+        <h3 className="text-xl font-semibold text-primary-gray">{title}</h3>
         <span name="party-tags">
           {partys.map((party, i) => {
             return (
@@ -27,8 +26,24 @@ const PartyVotes = ({ partyVotesData, partys }) => {
         </span>
       </div>
       <div name="chart-area" className="h-[250px] w-full overflow-auto">
-        <BarChart data={partyVotesData} />
+        {children}
       </div>
+    </div>
+  );
+};
+
+const PartyVotes = ({ partyVotesData, lineChartData, partys }) => {
+  return (
+    <section
+      name="party-votes-wrap"
+      className="flex w-full flex-col gap-3 lg:flex-row"
+    >
+      <Container title="歷屆政黨得票率" partys={partys}>
+        <BarChart data={partyVotesData} />
+      </Container>
+      <Container title="歷年政黨得票率" partys={partys}>
+        <LineChart data={lineChartData} />
+      </Container>
     </section>
   );
 };

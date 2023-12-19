@@ -6,6 +6,7 @@ import {
   partysData,
   votesPercentageData,
   totalVotes,
+  lineChartData,
 } from "../data/dummyData";
 
 const MainPage = () => {
@@ -17,7 +18,11 @@ const MainPage = () => {
           votesPercentageData={votesPercentageData}
           totalVotes={totalVotes}
         />
-        <PartyVotes partyVotesData={partyVotesData} partys={partysData} />
+        <PartyVotes
+          partyVotesData={partyVotesData}
+          lineChartData={lineChartData}
+          partys={partysData}
+        />
       </main>
     </>
   );
