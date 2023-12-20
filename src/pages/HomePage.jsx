@@ -6,6 +6,7 @@ import chMage from '/figures/person_mage_3d_default 1.png';
 import chElf from '/figures/man_elf_3d_medium-light 1.png';
 import chZombieW from '/figures/woman_zombie_3d 1.png';
 import { ReactComponent as Title } from '../assets/title.svg';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const years = [1996, 2000, 2004, 2008, 2012, 2016, 2020];
@@ -29,12 +30,12 @@ const HomePage = () => {
                 key={year}
                 className="h-[45px] w-[48%] max-w-[175px] rounded-full bg-gray-200 hover:bg-primary-purple hover:text-white"
               >
-                <a
-                  href="main"
+                <Link
+                  to="/main"
                   className="w-full h-full flex justify-center items-center"
                 >
                   <span className="inline-block font-semibold">{year}</span>
-                </a>
+                </Link>
               </li>
             );
           })}
