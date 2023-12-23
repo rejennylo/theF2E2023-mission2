@@ -5,10 +5,10 @@ const Container = ({ children, partys, title }) => {
   return (
     <div
       name="party-votes-container"
-      className="border-grap-200 w-full rounded-xl border p-5"
+      className="border-gray-200 w-full rounded-xl border p-5 lg:w-[45%] lg:grow"
     >
       <div
-        name="tatle-area"
+        name="title-area"
         className="mb-3 flex w-full items-center justify-between py-2"
       >
         <h3 className="text-xl font-semibold text-primary-gray">{title}</h3>

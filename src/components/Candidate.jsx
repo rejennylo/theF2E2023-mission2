@@ -24,7 +24,7 @@ const Candidate = ({ votesPercentageData, totalVotes }) => {
       <h3 className="mb-3 py-2 text-xl font-semibold text-primary-gray">
         總統得票數
       </h3>
-      <div className="lg:flex lg:h-full lg:gap-3">
+      <div className="lg:flex lg:h-auto  lg:gap-3">
         <div
           name="candidate-warp"
           className="mb-3 rounded-xl bg-white p-5 lg:mb-0 lg:w-1/2"
