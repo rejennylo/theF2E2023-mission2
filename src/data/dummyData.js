@@ -124,3 +124,36 @@ export const totalVotes = {
   有效票數: 123456700,
   無效票數: 89,
 };
+
+export const citiesData = [
+  {
+    city: "台北",
+    cityID: "A",
+    name: "候選人Ａ",
+    candidate: ["A", "B", "C"],
+    fillColor: ["fill-role-blue", "fill-role-orange", "fill-role-green"],
+    bgColor: "bg-role-blue",
+    image: "./figures/person_vampire_3d_default 1.png",
+    value: [50, 30, 20],
+  },
+  {
+    city: "台中",
+    cityID: "A",
+    name: "候選人Ａ",
+    candidate: ["A", "B", "C"],
+    fillColor: ["fill-role-blue", "fill-role-orange", "fill-role-green"],
+    bgColor: "bg-role-blue",
+    image: "./figures/person_vampire_3d_default 1.png",
+    value: [50, 25, 25],
+  },
+  {
+    city: "高雄",
+    cityID: "A",
+    name: "候選人B",
+    candidate: ["A", "B", "C"],
+    fillColor: ["fill-role-blue", "fill-role-orange", "fill-role-green"],
+    bgColor: "bg-role-orange",
+    image: "./figures/man_elf_3d_medium-light 1.png",
+    value: [30, 45, 25],
+  },
+];

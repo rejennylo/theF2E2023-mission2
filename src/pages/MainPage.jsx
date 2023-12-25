@@ -8,8 +8,10 @@ import {
   votesPercentageData,
   totalVotes,
   lineChartData,
+  citiesData
 } from "../data/dummyData";
 import topoJsonPath from "../data/map-json/COUNTY_MOI_1090820.json";
+import Cities from "../components/Cities";
 
 const MainPage = () => {
   return (
@@ -29,6 +31,7 @@ const MainPage = () => {
             lineChartData={lineChartData}
             partys={partysData}
           />
+          <Cities citiesData={citiesData} />
         </main>
       </div>
     </>
