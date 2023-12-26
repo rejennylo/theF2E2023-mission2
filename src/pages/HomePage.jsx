@@ -1,12 +1,12 @@
-import logo from '/logo@2x.png';
-import chVampire from '/figures/person_vampire_3d_default 1.png';
-import chSuperW from '/figures/woman_supervillain_3d_default 1.png';
-import chTroll from '/figures/troll_3d 1.png';
-import chMage from '/figures/person_mage_3d_default 1.png';
-import chElf from '/figures/man_elf_3d_medium-light 1.png';
-import chZombieW from '/figures/woman_zombie_3d 1.png';
-import { ReactComponent as Title } from '../assets/title.svg';
-import { Link } from 'react-router-dom';
+import logo from "/logo@2x.png";
+import chVampire from "/figures/person_vampire_3d_default 1.png";
+import chSuperW from "/figures/woman_supervillain_3d_default 1.png";
+import chTroll from "/figures/troll_3d 1.png";
+import chMage from "/figures/person_mage_3d_default 1.png";
+import chElf from "/figures/man_elf_3d_medium-light 1.png";
+import chZombieW from "/figures/woman_zombie_3d 1.png";
+import { ReactComponent as Title } from "../assets/title.svg";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const years = [1996, 2000, 2004, 2008, 2012, 2016, 2020];
@@ -16,14 +16,14 @@ const HomePage = () => {
     <div name="home" className="w-full">
       <div className="m-auto flex flex-col items-center overflow-hidden pt-[15vh]">
         <img src={logo} className="w-[140px]" />
-        <h1 className="text-4xl lg:text-6xl font-black text-primary-gray mt-5">
+        <h1 className="mt-5 text-4xl font-black text-primary-gray lg:text-6xl">
           <Title />
-          <span className='hidden'>台灣歷年總統 都幾？</span>
+          <span className="hidden">台灣歷年總統 都幾？</span>
         </h1>
-        <h3 className="text-2xl font-semibold text-primary-purple my-5">
+        <h3 className="my-5 text-2xl font-semibold text-primary-purple">
           選擇查詢年份
         </h3>
-        <ul className="flex flex-wrap justify-between gap-3 w-4/5 max-w-[925px] lg:justify-start">
+        <ul className="flex w-4/5 max-w-[925px] flex-wrap justify-between gap-3 lg:justify-start">
           {years.map((year) => {
             return (
               <li
@@ -32,7 +32,7 @@ const HomePage = () => {
               >
                 <Link
                   to="/main"
-                  className="w-full h-full flex justify-center items-center"
+                  className="flex h-full w-full items-center justify-center"
                 >
                   <span className="inline-block font-semibold">{year}</span>
                 </Link>
@@ -40,12 +40,12 @@ const HomePage = () => {
             );
           })}
         </ul>
-        <ul className="w-full flex absolute bottom-0 overflow-hidden justify-between">
+        <ul className="absolute bottom-0 flex w-full justify-between overflow-hidden">
           {chImages.map((ch, i) => {
             return (
               <li
                 key={i}
-                className="w-[100px] lg:w-[280px] mb-[-7px] lg:mb-[-20px] flex-none"
+                className="mb-[-7px] w-[100px] flex-none lg:mb-[-20px] lg:w-[280px]"
               >
                 <img src={ch} alt="image" className="object-center" />
               </li>

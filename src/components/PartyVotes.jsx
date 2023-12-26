@@ -5,7 +5,7 @@ const Container = ({ children, partys, title }) => {
   return (
     <div
       name="party-votes-container"
-      className="border-gray-200 w-full rounded-xl border p-5 lg:w-[45%] lg:grow"
+      className="w-full rounded-xl border border-gray-200 p-5 lg:w-[45%] lg:grow"
     >
       <div
         name="title-area"

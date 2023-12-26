@@ -2,7 +2,7 @@ import { CityBarChart } from "../components/charts/CityBarChart";
 
 const Card = ({ data }) => {
   return (
-    <li className="pt-3 flex w-full border-b hover:bg-gray-100">
+    <li className="flex w-full border-b pt-3 hover:bg-gray-100">
       <span className="w-1/5 font-bold text-primary-gray">{data.city}</span>
       <span className="flex grow flex-col">
         <span className="mb-3 flex items-center">
@@ -12,7 +12,7 @@ const Card = ({ data }) => {
           </span>
           <span>{data.name}</span>
         </span>
-        <span className="rounded-xl overflow-hidden mb-5">
+        <span className="mb-5 overflow-hidden rounded-xl">
           <CityBarChart data={data} />
         </span>
       </span>
@@ -23,7 +23,7 @@ const Card = ({ data }) => {
 
 const Cities = ({ citiesData }) => {
   return (
-    <section name="cities" className="w-full p-5">
+    <section name="cities" className="mt-5 w-full p-5">
       <h3 className="mb-3 py-2 text-xl font-semibold text-primary-gray">
         各縣市投票總覽
       </h3>

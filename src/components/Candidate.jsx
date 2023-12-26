@@ -20,7 +20,10 @@ const Card = ({ image, party, name, votes, color }) => {
 
 const Candidate = ({ votesPercentageData, totalVotes }) => {
   return (
-    <section name="candidate" className="w-full rounded-xl bg-gray-200 p-5">
+    <section
+      name="candidate"
+      className="mb-5 w-full rounded-xl bg-gray-200 p-5"
+    >
       <h3 className="mb-3 py-2 text-xl font-semibold text-primary-gray">
         總統得票數
       </h3>
@@ -52,7 +55,7 @@ const Candidate = ({ votesPercentageData, totalVotes }) => {
           className="flex justify-between rounded-xl bg-white p-5 lg:w-1/2 lg:justify-start"
         >
           <div className="flex w-auto items-center justify-center">
-            <DonutChart percentage={Object.values(totalVotes)[1]} />
+            <DonutChart data={Object.values(totalVotes)[1]} />
           </div>
           <ul className="ml-5 w-2/3 lg:flex lg:w-auto lg:flex-wrap">
             {Object.keys(totalVotes).map((item, i) => {

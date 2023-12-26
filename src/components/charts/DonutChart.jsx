@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-export const DonutChart = ({ percentage }) => {
+export const DonutChart = ({ data }) => {
   const containerRef = useRef(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -29,14 +29,14 @@ export const DonutChart = ({ percentage }) => {
     .innerRadius((size.width / 2) * 0.75) // 内半徑
     .outerRadius(size.width / 2) // 外半徑
     .startAngle(0) // 起始角度
-    .endAngle(2 * Math.PI * (percentage / 100)); // 结束角度
+    .endAngle(2 * Math.PI * (data / 100)); // 结束角度
 
   // 計算背景弧形
   const createBackgroundArc = d3
     .arc()
     .innerRadius((size.width / 2) * 0.75)
     .outerRadius(size.width / 2)
-    .startAngle(2 * Math.PI * (percentage / 100))
+    .startAngle(2 * Math.PI * (data / 100))
     .endAngle(2 * Math.PI);
 
   return (
@@ -63,7 +63,7 @@ export const DonutChart = ({ percentage }) => {
             dy=".8em"
             className="fill-primary-purple text-xl font-semibold"
           >
-            {`${percentage.toFixed(1)}%`} {/* 取小數點後一位 */}
+            {`${data.toFixed(1)}%`} {/* 取小數點後一位 */}
           </text>
         </g>
       </svg>

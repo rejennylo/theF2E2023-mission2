@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { feature } from "topojson-client";
 import * as d3 from "d3";
 
-const MapChart = ({ topoJSON }) => {
+export const MapChart = ({ topoJSON }) => {
   const svgRef = useRef(null);
-  // const [paths, setPaths] = useState([]);
   const [locations, setLocations] = useState([]);
 
   useEffect(() => {
@@ -17,8 +16,8 @@ const MapChart = ({ topoJSON }) => {
     const projection = d3
       .geoMercator()
       .center([120.9718, 23.9739]) // 台灣中心的經緯度
-      .scale(12000)
-      .translate([width / 2, height / 2]);
+      .scale(11000)
+      .translate([width / 2.3, height / 2.7]);
 
     // 創建路徑生成器
     const pathGenerator = d3.geoPath().projection(projection);
@@ -36,9 +35,6 @@ const MapChart = ({ topoJSON }) => {
     });
 
     setLocations(locations); // 將數據儲存到 state 中
-
-    console.log(locations);
-
     // 移動畫面
     const zoom = d3
       .zoom()
@@ -51,17 +47,15 @@ const MapChart = ({ topoJSON }) => {
   }, []);
 
   return (
-    <div className="h-full w-full overflow-hidden">
+    <div className="h-screen w-full overflow-hidden bg-sky-100">
       <svg ref={svgRef} className="h-full w-full">
         {locations.map((location, i) => (
-
-            <path
-              key={i}
-              d={location.d}
-              className="fill-role-blue stroke-gray-200 hover:stroke-white hover:stroke-2"
-              // 如果需要，也可以傳遞其他地理特徵的屬性，例如 onClick 事件
-            />
-
+          <path
+            key={i}
+            d={location.d}
+            className="fill-role-blue stroke-gray-200 hover:stroke-white hover:stroke-2"
+            // 放上 onClick 事件
+          />
         ))}
         {locations.map((location, i) => (
           <text
@@ -79,5 +73,3 @@ const MapChart = ({ topoJSON }) => {
     </div>
   );
 };
-
-export default MapChart;
