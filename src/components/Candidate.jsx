@@ -18,7 +18,11 @@ const Card = ({ image, party, name, votes, color }) => {
   );
 };
 
-const Candidate = ({ votesPercentageData, totalVotes }) => {
+const Candidate = ({
+  votesPercentageData,
+  isVoteData,
+}) => {
+
   return (
     <section
       name="candidate"
@@ -55,11 +59,11 @@ const Candidate = ({ votesPercentageData, totalVotes }) => {
           className="flex justify-between rounded-xl bg-white p-5 lg:w-1/2 lg:justify-start"
         >
           <div className="flex w-auto items-center justify-center">
-            <DonutChart data={Object.values(totalVotes)[1]} />
+            <DonutChart data={parseFloat(isVoteData["投票率"], 10)} />
           </div>
           <ul className="ml-5 w-2/3 lg:flex lg:w-auto lg:flex-wrap">
-            {Object.keys(totalVotes).map((item, i) => {
-              const itemValue = totalVotes[item];
+            {Object.keys(isVoteData).map((item, i) => {
+              const itemValue = parseInt(isVoteData[item], 10);
               return (
                 <li
                   key={i}

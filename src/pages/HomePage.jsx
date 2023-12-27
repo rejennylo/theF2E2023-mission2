@@ -25,13 +25,28 @@ const HomePage = () => {
         </h3>
         <ul className="flex w-4/5 max-w-[925px] flex-wrap justify-between gap-3 lg:justify-start">
           {years.map((year) => {
+            if (year <= 2012) {
+              return (
+                <li
+                  key={year}
+                  className="h-[45px] w-[48%] max-w-[175px] rounded-full bg-gray-200 text-secondary-gray"
+                >
+                  <a
+                    href="#"
+                    className="flex h-full w-full items-center justify-center"
+                  >
+                    <span className="inline-block font-semibold">{year}</span>
+                  </a>
+                </li>
+              );
+            }
             return (
               <li
                 key={year}
                 className="h-[45px] w-[48%] max-w-[175px] rounded-full bg-gray-200 hover:bg-primary-purple hover:text-white"
               >
                 <Link
-                  to="/main"
+                  to={`/main/${year}`}
                   className="flex h-full w-full items-center justify-center"
                 >
                   <span className="inline-block font-semibold">{year}</span>

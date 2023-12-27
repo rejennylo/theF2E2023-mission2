@@ -7,7 +7,7 @@ import MainPage from "./pages/MainPage.jsx";
 
 const router = createHashRouter([
   { path: "/", element: <HomePage /> },
-  { path: "/main", element: <MainPage /> },
+  { path: "/main/:year", element: <MainPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

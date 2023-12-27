@@ -5,3 +5,14 @@
 *{
   /* outline: orange solid 1px; */
 }
+
+@keyframes fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+@layer utilities {
+  .fade-animation {
+      animation: fade 1s infinite;
+    }
+}
