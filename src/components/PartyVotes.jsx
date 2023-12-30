@@ -17,9 +17,9 @@ const Container = ({ children, partys, title }) => {
             return (
               <span key={i} className="ml-2 md:ml-3">
                 <span
-                  className={`inline-block h-3 w-3 rounded-full ${party.color}`}
+                  className={`inline-block h-3 w-3 rounded-full ${party.bgColor}`}
                 ></span>
-                <span className="ml-1 text-sm md:text-base">{party.name}</span>
+                <span className="ml-1 text-sm md:text-base">{party.partyName}</span>
               </span>
             );
           })}
@@ -32,16 +32,16 @@ const Container = ({ children, partys, title }) => {
   );
 };
 
-const PartyVotes = ({ partyVotesData, lineChartData, partys }) => {
+const PartyVotes = ({ lineChartData, barChartData, isVotesData }) => {
   return (
     <section
       name="party-votes-wrap"
       className="flex w-full flex-col gap-3 lg:flex-row"
     >
-      <Container title="歷屆政黨得票率" partys={partys}>
-        <BarChart data={partyVotesData} />
+      <Container title="歷屆政黨得票率" partys={isVotesData}>
+        <BarChart data={barChartData} />
       </Container>
-      <Container title="歷年政黨得票率" partys={partys}>
+      <Container title="歷年政黨得票率" partys={isVotesData}>
         <LineChart data={lineChartData} />
       </Container>
     </section>

@@ -84,7 +84,7 @@ export const StackedBarChart = ({ data }) => {
                     textAnchor="middle"
                     alignmentBaseline="middle"
                   >
-                    {data[i].value}%
+                    {parseInt(data[i].value)}%
                   </text>
                 </g>
               ))}

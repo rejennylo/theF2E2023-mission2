@@ -8,6 +8,9 @@ export const BarChart = ({ data }) => {
   const noMarginWidth = parentSize.width - margin.left - margin.right;
   const noMarginHeight = parentSize.height - margin.top - margin.bottom;
 
+// console.log('data:', data)
+// console.log("barChartData:", barChartData);
+
   useEffect(() => {
     // 確保容器存在並已被渲染
     if (containerRef.current) {
@@ -80,7 +83,7 @@ export const BarChart = ({ data }) => {
                 <line x2={noMarginWidth} className="stroke stroke-gray-200" />
                 {/* y軸隔線 */}
                 <text x="-10" y="0" dy=".32em" textAnchor="end">
-                  {tick.value}萬
+                  {(tick.value)/10000}萬
                 </text>
               </g>
             ))}

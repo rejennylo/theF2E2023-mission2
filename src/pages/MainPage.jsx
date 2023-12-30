@@ -2,12 +2,7 @@ import Header from "../components/Header";
 import Candidate from "../components/Candidate";
 import PartyVotes from "../components/PartyVotes";
 import { MapChart } from "../components/charts/MapChart";
-import {
-  partyVotesData,
-  partysData,
-  lineChartData,
-  citiesData,
-} from "../data/dummyData";
+import { citiesData } from "../data/dummyData";
 import topoJsonPath from "../data/map-json/COUNTY_MOI_1090820.json";
 import Cities from "../components/Cities";
 import Footer from "../components/Footer";
@@ -20,6 +15,7 @@ const MainPage = () => {
   const [selectedYear, setSelectedYear] = useState(year);
   const [selectedCity, setSelectedCity] = useState("全國");
   const [jsonData, setJsonData] = useState();
+  const years = [2016, 2020];
 
   useEffect(() => {
     const fetchDataForFile = async (name) => {
@@ -77,51 +73,6 @@ const MainPage = () => {
   // 選到的縣市資料
   const cityIs = cities.filter((city) => city[5] === selectedCity);
 
-  // 圖片資料
-  const colorImageData = [
-    {
-      fillColor: "fill-role-blue",
-      bgColor: "bg-role-blue",
-      image: "./figures/person_vampire_3d_default 1.png",
-      partyNumber: "1",
-    },
-    {
-      fillColor: "fill-role-orange",
-      bgColor: "bg-role-orange",
-      image: "./figures/man_elf_3d_medium-light 1.png",
-      partyNumber: "90",
-    },
-    {
-      fillColor: "fill-role-green",
-      bgColor: "bg-role-green",
-      image: "./figures/troll_3d 1.png",
-      partyNumber: "16",
-    },
-  ];
-
-  // 政黨基本資料(elpaty)：
-  const partyData = jsonData.elpaty[year].map((item) => {
-    return { partyNumber: item[0], partyName: item[1] };
-  });
-
-  // 候選人資料
-  const candidateData = jsonData.elcand[selectedYear]
-    .filter((item) => item[15] !== "Y")
-    .map((nameItem) => {
-      const partyItem = partyData.find(
-        (partyItem) => partyItem.partyNumber === nameItem[7],
-      );
-      const colorImage = colorImageData.filter(
-        (colorItem) => colorItem.partyNumber === nameItem[7],
-      )[0];
-      return {
-        ...partyItem,
-        ...colorImage,
-        number: nameItem[5],
-        name: nameItem[6],
-      };
-    });
-
   // 縣市投票概況
   const cityVoteData = jsonData.elprof[selectedYear]
     .filter((item) => item[2] === "00" && item[3] === "000")
@@ -141,28 +92,150 @@ const MainPage = () => {
     無效票數: cityVoteData[0][7],
   };
 
-  // 縣市候選人得票
-  const getVotesCityData = jsonData.elctks[selectedYear]
-    .filter((item) => item[2] === "00" && item[3] === "000")
-    .filter(
-      (item) =>
-        item[0] === cityIs[0][0] &&
-        item[1] === cityIs[0][1] &&
-        item[2] === cityIs[0][2] &&
-        item[3] === cityIs[0][3],
-    );
+  // 候選人所有資料
+  const votesData = (jsonData, year, city) => {
+    // 圖片資料
+    const colorImageData = [
+      {
+        fillColor: "fill-role-blue",
+        bgColor: "bg-role-blue",
+        strokeColor: "stroke-role-blue",
+        image: "./figures/person_vampire_3d_default 1.png",
+        partyName: "中國國民黨",
+      },
+      {
+        fillColor: "fill-role-orange",
+        bgColor: "bg-role-orange",
+        strokeColor: "stroke-role-orange",
+        image: "./figures/man_elf_3d_medium-light 1.png",
+        partyName: "親民黨",
+      },
+      {
+        fillColor: "fill-role-green",
+        bgColor: "bg-role-green",
+        strokeColor: "stroke-role-green",
+        image: "./figures/troll_3d 1.png",
+        partyName: "民主進步黨",
+      },
+      {
+        fillColor: "fill-role-orange",
+        bgColor: "bg-role-orange",
+        strokeColor: "stroke-role-orange",
+        image: "./figures/man_genie_3d 1.png",
+        partyName: "新黨",
+      },
+      {
+        fillColor: "fill-secondary-gray",
+        bgColor: "bg-secondary-gray",
+        strokeColor: "stroke-secondary-gray",
+        image: "./figures/woman_supervillain_3d_default 1.png",
+        partyName: "連署",
+      },
+      {
+        fillColor: "fill-secondary-gray",
+        bgColor: "bg-secondary-gray",
+        strokeColor: "stroke-secondary-gray",
+        image: "./figures/person_mage_3d_default 1.png",
+        partyName: "無",
+      },
+    ];
 
-  // 整理後的年度總統得票資料
-  const isVotesData = getVotesCityData.map((data, i) => {
+    // 政黨基本資料(elpaty)：
+    const partyData = jsonData.elpaty[year].map((item) => {
+      return { partyNumber: item[0], partyName: item[1] };
+    });
+
+    // 候選人資料
+    const candidateData = jsonData.elcand[year]
+      .filter((item) => item[15] !== "Y")
+      .map((nameItem) => {
+        const partyItem = partyData.find(
+          (partyItem) => partyItem.partyNumber === nameItem[7],
+        );
+        const colorImage = colorImageData.find(
+          (colorItem) => colorItem.partyName === partyItem.partyName,
+        );
+        return {
+          ...partyItem,
+          ...colorImage,
+          number: nameItem[5],
+          name: nameItem[6],
+        };
+      });
+
+    // 縣市候選人得票
+    const getVotesCityData = jsonData.elctks[year]
+      .filter((item) => item[2] === "00" && item[3] === "000")
+      .filter(
+        (item) =>
+          item[0] === city[0][0] &&
+          item[1] === city[0][1] &&
+          item[2] === city[0][2] &&
+          item[3] === city[0][3],
+      );
+
+    // 整理後的年度總統得票資料
+    const result = getVotesCityData.map((data, i) => {
+      return {
+        ...candidateData[i],
+        votes: data[7],
+        value: data[8],
+        selected: data[9],
+        year: year,
+      };
+    });
+    return result;
+  };
+
+  const isVotesData = votesData(jsonData, selectedYear, cityIs);
+
+  // 長條圖資料
+  const barChartData = years.map((year) => {
+    const data = votesData(jsonData, year, cityIs);
     return {
-      ...candidateData[i],
-      votes: data[7],
-      value: data[8],
-      selected: data[9],
+      year: year,
+      candidate: data.map((d) => d.name),
+      values: data.map((d) => d.votes),
+      color: data.map((d) => d.fillColor),
     };
   });
-  // 候選人資料(elcand)：[6]候選人名字 [7]政黨代號 [14]當選與否 [15]是否為副手(Y就排除)
-  console.log(candidateData);
+
+  const lindData = (jsonData, years, city) => {
+    const isVotesData = years
+      .map((year) => votesData(jsonData, year, city))
+      .flat();
+    const yearValues = isVotesData.map((data) => {
+      return {
+        partyName: data.partyName,
+        values: { year: data.year, value: data.value },
+      };
+    });
+
+    const partyValues = isVotesData.map((data) => {
+      const values = yearValues
+        .map((item) => {
+          if (item.partyName === data.partyName) {
+            return item.values;
+          }
+        })
+        .filter((item) => item !== undefined);
+
+      return {
+        partyName: data.partyName,
+        values: [...values],
+        fillColor: data.fillColor,
+        strokeColor: data.strokeColor,
+      };
+    });
+
+    const result = partyValues.filter((item, index, arr) => {
+      return arr.findIndex((s) => item.partyName === s.partyName) === index;
+    });
+
+    return result;
+  };
+
+  const lineChartData = lindData(jsonData,years,cityIs);
 
   return (
     <div className="flex h-screen flex-col">
@@ -185,9 +258,9 @@ const MainPage = () => {
               isVotesData={isVotesData}
             />
             <PartyVotes
-              partyVotesData={partyVotesData}
+              barChartData={barChartData}
+              isVotesData={isVotesData}
               lineChartData={lineChartData}
-              partys={partysData}
             />
             <Cities citiesData={citiesData} />
           </main>
