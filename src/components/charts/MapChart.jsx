@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { feature } from "topojson-client";
 import * as d3 from "d3";
 
-export const MapChart = ({ topoJSON }) => {
+export const MapChart = ({ topoJSON, selectedCandidate }) => {
   const svgRef = useRef(null);
   const [locations, setLocations] = useState([]);
 
@@ -27,12 +27,18 @@ export const MapChart = ({ topoJSON }) => {
       topoJSON.objects.COUNTY_MOI_1090820,
     ).features.map((d) => {
       const centroid = pathGenerator.centroid(d); // 計算中心點
+      const data = selectedCandidate.filter(
+        (item) => item.city === d.properties.COUNTYNAME,
+      )[0];
+
       return {
         ...d.properties, // 擴展屬性資訊
         coordinates: centroid, // 各縣市中心點資訊
         d: pathGenerator(d), // 路徑描述
+        fillColor: data.fillColor,
       };
     });
+    console.log(locations);
 
     setLocations(locations); // 將數據儲存到 state 中
     // 移動畫面
@@ -44,7 +50,7 @@ export const MapChart = ({ topoJSON }) => {
         svg.selectAll("text").attr("transform", event.transform);
       });
     svg.call(zoom);
-  }, []);
+  }, [selectedCandidate]);
 
   return (
     <div className="h-screen w-full overflow-hidden bg-sky-100">
@@ -53,7 +59,7 @@ export const MapChart = ({ topoJSON }) => {
           <path
             key={i}
             d={location.d}
-            className="fill-role-blue stroke-gray-200 hover:stroke-white hover:stroke-2"
+            className={`${locations[i].fillColor} stroke-gray-200 hover:stroke-white hover:stroke-2`}
             // 放上 onClick 事件
           />
         ))}

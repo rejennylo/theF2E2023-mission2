@@ -2,7 +2,6 @@ import Header from "../components/Header";
 import Candidate from "../components/Candidate";
 import PartyVotes from "../components/PartyVotes";
 import { MapChart } from "../components/charts/MapChart";
-import { citiesData } from "../data/dummyData";
 import topoJsonPath from "../data/map-json/COUNTY_MOI_1090820.json";
 import Cities from "../components/Cities";
 import Footer from "../components/Footer";
@@ -235,7 +234,148 @@ const MainPage = () => {
     return result;
   };
 
-  const lineChartData = lindData(jsonData,years,cityIs);
+  const lineChartData = lindData(jsonData, years, cityIs);
+
+  // 圖片及顏色資料
+  const colorImageData = [
+    {
+      fillColor: "fill-role-blue",
+      bgColor: "bg-role-blue",
+      strokeColor: "stroke-role-blue",
+      image: "./figures/person_vampire_3d_default 1.png",
+      partyName: "中國國民黨",
+    },
+    {
+      fillColor: "fill-role-orange",
+      bgColor: "bg-role-orange",
+      strokeColor: "stroke-role-orange",
+      image: "./figures/man_elf_3d_medium-light 1.png",
+      partyName: "親民黨",
+    },
+    {
+      fillColor: "fill-role-green",
+      bgColor: "bg-role-green",
+      strokeColor: "stroke-role-green",
+      image: "./figures/troll_3d 1.png",
+      partyName: "民主進步黨",
+    },
+  ];
+
+  // 年度政黨基本資料
+  const partyData = jsonData.elpaty[year].map((item) => {
+    return { partyNumber: item[0], partyName: item[1] };
+  });
+
+  // 年度候選人資料
+  const isyearCandidateData = jsonData.elcand[year]
+    .filter((item) => item[15] !== "Y")
+    .map((nameItem) => {
+      const partyItem = partyData.find(
+        (partyItem) => partyItem.partyNumber === nameItem[7],
+      );
+      const colorImage = colorImageData.find(
+        (colorItem) => colorItem.partyName === partyItem.partyName,
+      );
+      return {
+        year: year,
+        ...partyItem,
+        ...colorImage,
+        number: nameItem[5],
+        name: nameItem[6],
+      };
+    });
+
+  // 原始資料(只保留縣市)
+  const votes = jsonData.elctks[year].filter(
+    (vote) => vote[2] === "00" && vote[3] === "000",
+  );
+
+  // 整理後的資料：
+  const isyearVoteAllCityData = votes.map((vote) => {
+    const city = cities.find(
+      (city) =>
+        city[0] === vote[0] &&
+        city[1] === vote[1] &&
+        city[2] === vote[2] &&
+        city[3] === vote[3] &&
+        city[4] === vote[4],
+    );
+    if (
+      city[0] === vote[0] &&
+      city[1] === vote[1] &&
+      city[2] === vote[2] &&
+      city[3] === vote[3] &&
+      city[4] === vote[4]
+    ) {
+      return {
+        year: year,
+        city: city[5],
+        number: vote[6],
+        votes: vote[7],
+        value: vote[8],
+        selected: vote[9],
+      };
+    }
+  });
+
+  // 所有縣市
+  const cityArray = cities
+    .filter((c) => c[5] !== "全國" && c[5] !== "臺灣省" && c[5] !== "福建省")
+    .map((city) => city[5]);
+
+  // 所有縣市當選的選票資料
+  const highestVote = cityArray.map((city) => {
+    const data = isyearVoteAllCityData.filter((vote) => vote.city === city);
+    const isHighest = data.reduce((max, current) => {
+      return Number(current.votes) > Number(max.votes) ? current : max;
+    });
+    return isHighest;
+  });
+
+  // 比對當選資料與候選人名單，將候選人資料回傳並加入縣市方便之後篩選
+  const selectedCandidate = highestVote.map((item) => {
+    const candidate = isyearCandidateData.filter(
+      (c) => item.number === c.number,
+    );
+    return { ...candidate[0], city: item.city };
+  });
+
+  // 堆疊長條圖的資料
+  const dataForStacked = cityArray.map((city) => {
+    // 單一縣市選票資料
+    const dataOfCity = isyearVoteAllCityData.filter(
+      (item) => item.city === city,
+    );
+    // 陣列）所有百分比，用於顯示堆疊長條圖
+    const value = dataOfCity.map((item) => item.value);
+    // 陣列）所有候選人名字，用於顯示堆疊長條圖
+    const candidate = isyearCandidateData.map((item) => item.name);
+    // 陣列）所有填色，用於顯示堆疊長條圖
+    const fillColor = isyearCandidateData.map((item) => item.fillColor);
+
+    return {
+      city: city,
+      candidate: candidate,
+      value: value,
+      fillColor: fillColor,
+    };
+  });
+
+  // 最後的資料
+  const citiesData = dataForStacked.map((item) => {
+    const data = selectedCandidate.filter(
+      (candidate) => item.city === candidate.city,
+    );
+    return {
+      city: item.city,
+      candidate: item.candidate,
+      value: item.value,
+      fillColor: item.fillColor,
+      name: data[0].name,
+      bgColor: data[0].bgColor,
+      image: data[0].image,
+    };
+  });
 
   return (
     <div className="flex h-screen flex-col">
@@ -249,7 +389,10 @@ const MainPage = () => {
       />
       <div className="flex h-full w-full overflow-hidden">
         <aside className="hidden lg:block lg:w-[30%] lg:shrink-0">
-          <MapChart topoJSON={topoJsonPath} />
+          <MapChart
+            topoJSON={topoJsonPath}
+            selectedCandidate={selectedCandidate}
+          />
         </aside>
         <div className="flex-grow overflow-auto ">
           <main className="gap-5 px-5 pt-5">

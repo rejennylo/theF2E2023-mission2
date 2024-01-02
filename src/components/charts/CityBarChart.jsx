@@ -28,7 +28,7 @@ export const CityBarChart = ({ data }) => {
 
   useEffect(() => {
     // 建立變數儲存候選人名稱，用於 stack
-    const keys = [data.candidate[0], data.candidate[1], data.candidate[2]];
+    const keys = [data.name[0], data.name[1], data.name[2]];
     const stack = d3
       .stack() // 建立堆疊
       .keys(keys) // 將剛剛的 keys 放入，定義每個 stack layer 的 key
