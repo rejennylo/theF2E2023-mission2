@@ -4,7 +4,7 @@ import * as d3 from "d3";
 export const CityBarChart = ({ data }) => {
   const containerRef = useRef(null); // 用來參考父元素的 ref
   const [stackedData, setStackedData] = useState([]);
-  const [parentSize, setParentSize] = useState({ width: 0, height: 0 });
+  const [parentSize, setParentSize] = useState({ width: 100, height: 10 });
 
   useEffect(() => {
     // 確保容器存在並已被渲染
@@ -59,7 +59,7 @@ export const CityBarChart = ({ data }) => {
     .range([0, parentSize.height]);
 
   return (
-    <div ref={containerRef} className="h-[10px] w-full">
+    <div ref={containerRef} className="h-full w-full">
       <svg width={parentSize.width} height={parentSize.height}>
         <g>
           {stackedData.map((layer, i) => (

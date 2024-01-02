@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { feature } from "topojson-client";
 import * as d3 from "d3";
-
-export const MapChart = ({ topoJSON, selectedCandidate }) => {
+export const MapChart = ({
+  topoJSON,
+  selectedCandidate,
+  selectedYear,
+  setSelectedCity,
+}) => {
   const svgRef = useRef(null);
   const [locations, setLocations] = useState([]);
-
+  
+  // TODO 圖表
   useEffect(() => {
     // 定義地圖的寬高
     const svg = d3.select(svgRef.current);
@@ -14,14 +19,15 @@ export const MapChart = ({ topoJSON, selectedCandidate }) => {
 
     // 創建投影
     const projection = d3
-      .geoMercator()
+      .geoMercator() // 繪製投影
       .center([120.9718, 23.9739]) // 台灣中心的經緯度
-      .scale(11000)
-      .translate([width / 2.3, height / 2.7]);
+      .scale(11000) // 地圖縮放
+      .translate([width / 2.3, height / 2.7]); // 以中心點計算位移參數
 
     // 創建路徑生成器
     const pathGenerator = d3.geoPath().projection(projection);
 
+    // 地圖資訊
     const locations = feature(
       topoJSON,
       topoJSON.objects.COUNTY_MOI_1090820,
@@ -38,42 +44,62 @@ export const MapChart = ({ topoJSON, selectedCandidate }) => {
         fillColor: data.fillColor,
       };
     });
-    console.log(locations);
 
     setLocations(locations); // 將數據儲存到 state 中
     // 移動畫面
     const zoom = d3
       .zoom()
-      .scaleExtent([1, 8])
+      .scaleExtent([1, 8]) // 設定最大與最小縮放比例
       .on("zoom", (event) => {
         svg.selectAll("path").attr("transform", event.transform);
         svg.selectAll("text").attr("transform", event.transform);
       });
     svg.call(zoom);
-  }, [selectedCandidate]);
+
+    console.log(selectedYear); //檢查 selectedYear 是否有傳入
+    
+  }, [selectedYear]); //TODO
 
   return (
     <div className="h-screen w-full overflow-hidden bg-sky-100">
       <svg ref={svgRef} className="h-full w-full">
+        {/* 地圖繪製 */}
         {locations.map((location, i) => (
-          <path
+          <g
             key={i}
-            d={location.d}
-            className={`${locations[i].fillColor} stroke-gray-200 hover:stroke-white hover:stroke-2`}
-            // 放上 onClick 事件
-          />
-        ))}
-        {locations.map((location, i) => (
-          <text
-            key={i}
-            x={location.coordinates[0]}
-            y={location.coordinates[1]}
-            textAnchor="middle"
-            dy=".8em"
-            className="fill-white text-xs"
+            onClick={(e) =>
+              setSelectedCity(e.target.getAttribute("name"))
+            }
           >
-            {location.COUNTYNAME}
-          </text>
+            <path
+              name={location.COUNTYNAME}
+              d={location.d}
+              className={`${locations[i].fillColor} relative cursor-pointer stroke-gray-200 hover:stroke-white hover:stroke-2`}
+            />
+          </g>
+        ))}
+        {/* 地圖文字 */}
+        {locations.map((location, i) => (
+          <g key={i} className="cursor-pointer text-[10px] font-extrabold">
+            <text
+              x={location.coordinates[0]}
+              y={location.coordinates[1]}
+              textAnchor="middle"
+              dy=".8em"
+              className="fill-white stroke-secondary-gray"
+            >
+              {location.COUNTYNAME}
+            </text>
+            <text
+              x={location.coordinates[0]}
+              y={location.coordinates[1]}
+              textAnchor="middle"
+              dy=".8em"
+              className="fill-white"
+            >
+              {location.COUNTYNAME}
+            </text>
+          </g>
         ))}
       </svg>
     </div>

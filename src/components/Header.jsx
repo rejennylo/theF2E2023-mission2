@@ -14,13 +14,13 @@ const Header = ({
   const years = [2016, 2020];
   const icons = [
     { icon: "分享", link: "#", style: "text-primary-gray" },
-    { icon: <IconFb />, link: "#", style: "" },
-    { icon: <IconIns />, link: "#", style: "" },
-    { icon: <IconYt />, link: "#", style: "" },
+    { icon: <IconFb />, link: "https://www.facebook.com/", style: "" },
+    { icon: <IconIns />, link: "https://www.instagram.com/", style: "" },
+    { icon: <IconYt />, link: "https://www.youtube.com/", style: "" },
   ];
 
   return (
-    <header className={className}>
+    <header id="header" className={className}>
       <nav name="header-wrap" className="flex w-full">
         <div className="w-full lg:flex">
           <div

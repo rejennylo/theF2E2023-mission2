@@ -6,15 +6,16 @@ import topoJsonPath from "../data/map-json/COUNTY_MOI_1090820.json";
 import Cities from "../components/Cities";
 import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 const MainPage = () => {
   const { year } = useParams(); // 將 useParams 取得的資料解構賦值給 year
-  const [selectedYear, setSelectedYear] = useState(year);
+  const [selectedYear, setSelectedYear] = useState(year); //TODO 當前選到的年份
   const [selectedCity, setSelectedCity] = useState("全國");
   const [jsonData, setJsonData] = useState();
   const years = [2016, 2020];
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     const fetchDataForFile = async (name) => {
@@ -352,12 +353,14 @@ const MainPage = () => {
     const candidate = isyearCandidateData.map((item) => item.name);
     // 陣列）所有填色，用於顯示堆疊長條圖
     const fillColor = isyearCandidateData.map((item) => item.fillColor);
+    const vote = dataOfCity.map((item) => parseInt(item.votes));
 
     return {
       city: city,
       candidate: candidate,
       value: value,
       fillColor: fillColor,
+      votes: vote,
     };
   });
 
@@ -366,16 +369,31 @@ const MainPage = () => {
     const data = selectedCandidate.filter(
       (candidate) => item.city === candidate.city,
     );
+    const vote = Math.max(...item.votes);
+
     return {
       city: item.city,
       candidate: item.candidate,
       value: item.value,
+      votes: vote,
       fillColor: item.fillColor,
       name: data[0].name,
       bgColor: data[0].bgColor,
       image: data[0].image,
     };
   });
+
+  // 捲動到頂部
+  const scrollToTop = () => {
+    const element = scrollRef.current;
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "center",
+      });
+    }
+  };
 
   return (
     <div className="flex h-screen flex-col">
@@ -387,18 +405,28 @@ const MainPage = () => {
         className="flex-shrink-0"
         cities={cities}
       />
-      <div className="flex h-full w-full overflow-hidden">
+      <div className="relative flex h-full w-full overflow-hidden">
+        <span
+          name="icon"
+          className="absolute bottom-10 right-10 h-15 w-15"
+          onClick={scrollToTop}
+        >
+          <img src="./icon_button.png" alt="icon" />
+        </span>
         <aside className="hidden lg:block lg:w-[30%] lg:shrink-0">
           <MapChart
             topoJSON={topoJsonPath}
             selectedCandidate={selectedCandidate}
+            selectedYear={selectedYear} //TODO 傳入年份
+            setSelectedCity={setSelectedCity}
           />
         </aside>
-        <div className="flex-grow overflow-auto ">
+        <div className="flex-grow overflow-auto">
           <main className="gap-5 px-5 pt-5">
             <Candidate
               isTotalVoteData={isTotalVoteData}
               isVotesData={isVotesData}
+              scrollRef={scrollRef}
             />
             <PartyVotes
               barChartData={barChartData}

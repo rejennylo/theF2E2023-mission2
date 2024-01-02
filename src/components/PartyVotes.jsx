@@ -11,7 +11,7 @@ const Container = ({ children, partys, title }) => {
         name="title-area"
         className="mb-3 flex w-full items-center justify-between py-2"
       >
-        <h3 className="text-xl font-semibold text-primary-gray">{title}</h3>
+        <h3 className="text-lg font-semibold text-primary-gray">{title}</h3>
         <span name="party-tags">
           {partys.map((party, i) => {
             return (

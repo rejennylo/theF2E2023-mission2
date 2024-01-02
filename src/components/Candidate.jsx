@@ -1,7 +1,10 @@
 import { StackedBarChart } from "../components/charts/StackedBarChart";
 import { DonutChart } from "./charts/DonutChart";
 
-const Card = ({ image, partyName, name, votes, bgColor }) => {
+const Card = ({ image, partyName, name, votes, bgColor,selected }) => {
+
+  const check = selected ==='*'?'block':'hidden'
+
   return (
     <li name="card" className="mb-3 flex">
       <span
@@ -11,18 +14,22 @@ const Card = ({ image, partyName, name, votes, bgColor }) => {
       </span>
       <span className="ml-3 flex flex-col">
         <span className="text-sm text-secondary-gray">{partyName}</span>
-        <span>{name}</span>
+        <span className="relative">
+          {name}
+            <img src="./check_circle.png" alt="selected" className={`absolute top-1 left-14 ${check}`} />
+        </span>
         <span>{parseInt(votes, 10).toLocaleString()} 票</span>
       </span>
     </li>
   );
 };
 
-const Candidate = ({ isTotalVoteData, isVotesData }) => {
+const Candidate = ({ isTotalVoteData, isVotesData, scrollRef }) => {
   return (
     <section
       name="candidate"
       className="mb-5 w-full rounded-xl bg-gray-200 p-5"
+      ref={scrollRef}
     >
       <h3 className="mb-3 py-2 text-xl font-semibold text-primary-gray">
         總統得票數
@@ -30,7 +37,7 @@ const Candidate = ({ isTotalVoteData, isVotesData }) => {
       <div className="lg:flex lg:h-auto  lg:gap-3">
         <div
           name="candidate-warp"
-          className="mb-3 rounded-xl bg-white p-5 lg:mb-0 lg:w-1/2"
+          className="mb-3 rounded-xl bg-white p-5 lg:mb-0 lg:w-[55%]"
         >
           <ul name="candidate-cards" className="mb-5 lg:flex lg:justify-around">
             {isVotesData.map((data) => {
@@ -42,6 +49,7 @@ const Candidate = ({ isTotalVoteData, isVotesData }) => {
                   name={data.name}
                   votes={data.votes}
                   bgColor={data.bgColor}
+                  selected={data.selected}
                 />
               );
             })}
@@ -52,7 +60,7 @@ const Candidate = ({ isTotalVoteData, isVotesData }) => {
         </div>
         <div
           name="vote-rate-wrap"
-          className="flex justify-between rounded-xl bg-white p-5 lg:w-1/2 lg:justify-start"
+          className="flex justify-between rounded-xl bg-white p-5 lg:w-[45%] lg:justify-start"
         >
           <div className="flex w-auto items-center justify-center">
             <DonutChart data={parseFloat(isTotalVoteData["投票率"], 10)} />
