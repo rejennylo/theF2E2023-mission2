@@ -40,7 +40,7 @@ export const DonutChart = ({ data }) => {
     .endAngle(2 * Math.PI);
 
   return (
-    <div ref={containerRef} className="h-[70%] lg:h-[95%]">
+    <div ref={containerRef} className="h-[85%] lg:h-full">
       <svg width={size.width} height={size.height}>
         <g transform={`translate(${size.width / 2}, ${size.height / 2})`}>
           <path d={createBackgroundArc()} className="fill-slate-200" />{" "}

@@ -8,9 +8,6 @@ export const BarChart = ({ data }) => {
   const noMarginWidth = parentSize.width - margin.left - margin.right;
   const noMarginHeight = parentSize.height - margin.top - margin.bottom;
 
-// console.log('data:', data)
-// console.log("barChartData:", barChartData);
-
   useEffect(() => {
     // 確保容器存在並已被渲染
     if (containerRef.current) {
@@ -30,6 +27,10 @@ export const BarChart = ({ data }) => {
       };
     }
   }, [containerRef]); // 關注 containerRef 是否改變，改變就會執行 useEffect
+
+  useEffect(()=>{
+
+  },[data])
 
   // 設定 x 軸 年份 比例尺
   const xScale1 = d3

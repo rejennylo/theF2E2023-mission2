@@ -20,7 +20,7 @@ const Header = ({
   ];
 
   return (
-    <header id="header" className={className}>
+    <header id="header" className={`border ${className}`}>
       <nav name="header-wrap" className="flex w-full">
         <div className="w-full lg:flex">
           <div
@@ -78,7 +78,7 @@ const Header = ({
               id="area"
               className="h-8 w-1/2 rounded-br-full rounded-tr-full border-x-8 bg-gray-200 font-light"
             >
-              <option value="null">選擇區域</option>
+              <option value="null">維護中</option>
             </select>
           </div>
         </div>

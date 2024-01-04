@@ -55,8 +55,6 @@ export const MapChart = ({
         svg.selectAll("text").attr("transform", event.transform);
       });
     svg.call(zoom);
-
-    console.log(selectedYear); //檢查 selectedYear 是否有傳入
     
   }, [selectedYear]); //TODO
 

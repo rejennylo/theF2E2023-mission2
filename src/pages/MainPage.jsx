@@ -22,7 +22,7 @@ const MainPage = () => {
       const years = [1996, 2000, 2004, 2008, 2012, 2016, 2020];
       const yearPromises = years.map((year) =>
         axios
-          .get(`src/data/vote-json/${year}/${name}.json`)
+          .get(`./src/data/vote-json/${year}/${name}.json`)
           .then((res) => ({ [year]: res.data })),
       );
       return Promise.all(yearPromises);
@@ -263,12 +263,12 @@ const MainPage = () => {
   ];
 
   // 年度政黨基本資料
-  const partyData = jsonData.elpaty[year].map((item) => {
+  const partyData = jsonData.elpaty[selectedYear].map((item) => {
     return { partyNumber: item[0], partyName: item[1] };
   });
 
   // 年度候選人資料
-  const isyearCandidateData = jsonData.elcand[year]
+  const isyearCandidateData = jsonData.elcand[selectedYear]
     .filter((item) => item[15] !== "Y")
     .map((nameItem) => {
       const partyItem = partyData.find(
@@ -287,7 +287,7 @@ const MainPage = () => {
     });
 
   // 原始資料(只保留縣市)
-  const votes = jsonData.elctks[year].filter(
+  const votes = jsonData.elctks[selectedYear].filter(
     (vote) => vote[2] === "00" && vote[3] === "000",
   );
 
@@ -340,7 +340,6 @@ const MainPage = () => {
     );
     return { ...candidate[0], city: item.city };
   });
-
   // 堆疊長條圖的資料
   const dataForStacked = cityArray.map((city) => {
     // 單一縣市選票資料
@@ -394,7 +393,7 @@ const MainPage = () => {
       });
     }
   };
-
+  
   return (
     <div className="flex h-screen flex-col">
       <Header
