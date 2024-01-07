@@ -11,18 +11,19 @@ import axios from "axios";
 
 const MainPage = () => {
   const { year } = useParams(); // 將 useParams 取得的資料解構賦值給 year
-  const [selectedYear, setSelectedYear] = useState(year); //TODO 當前選到的年份
+  const [selectedYear, setSelectedYear] = useState(year); // 當前選到的年份
   const [selectedCity, setSelectedCity] = useState("全國");
   const [jsonData, setJsonData] = useState();
   const years = [2016, 2020];
   const scrollRef = useRef(null);
+  const [mapVisible, setMapVisible] = useState(false);
 
   useEffect(() => {
     const fetchDataForFile = async (name) => {
       const years = [1996, 2000, 2004, 2008, 2012, 2016, 2020];
       const yearPromises = years.map((year) =>
         axios
-          .get(`./src/data/vote-json/${year}/${name}.json`)
+          .get(`./vote-json/${year}/${name}.json`)
           .then((res) => ({ [year]: res.data })),
       );
       return Promise.all(yearPromises);
@@ -196,7 +197,9 @@ const MainPage = () => {
       year: year,
       candidate: data.map((d) => d.name),
       values: data.map((d) => d.votes),
-      color: data.map((d) => d.fillColor),
+      fillColor: data.map((d) => d.fillColor),
+      bgColor: data.map((d) => d.bgColor),
+      partyName: data.map((d) => d.partyName),
     };
   });
 
@@ -393,9 +396,52 @@ const MainPage = () => {
       });
     }
   };
-  
+
+  // 地圖開關
+  const toggleMapVisible = () => {
+    setMapVisible(!mapVisible);
+  };
+
   return (
-    <div className="flex h-screen flex-col">
+    <div className="relative flex h-screen flex-col">
+      {mapVisible && (
+        <div name="map-wrap" className="absolute z-10 h-screen w-screen">
+          <div className="h-full w-full bg-primary-gray opacity-40"></div>
+          <div className="absolute left-1/2 top-1/2  h-[800px] w-[400px] -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-2xl bg-sky-200">
+            <div className="flex items-center justify-between bg-white p-4">
+              <span className="inline-block font-bold text-primary-gray">
+                台灣地圖
+              </span>
+              <span>
+                <img
+                  src="./cancel.png"
+                  alt="icon"
+                  onClick={toggleMapVisible}
+                  className="cursor-pointer"
+                />
+              </span>
+            </div>
+            <div className="h-[675px] w-full">
+              <MapChart
+                topoJSON={topoJsonPath}
+                selectedCandidate={selectedCandidate}
+                selectedYear={selectedYear}
+                setSelectedCity={setSelectedCity}
+                translate={[2.4, 2.9]}
+                size={10000}
+              />
+            </div>
+            <div className="flex items-center justify-center bg-white p-4">
+              <span
+                className="cursor-pointer rounded-xl bg-primary-purple px-10 py-2 text-white"
+                onClick={toggleMapVisible}
+              >
+                確定
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
       <Header
         selectedYear={selectedYear}
         setSelectedYear={setSelectedYear}
@@ -404,21 +450,32 @@ const MainPage = () => {
         className="flex-shrink-0"
         cities={cities}
       />
-      <div className="relative flex h-full w-full overflow-hidden">
+      <div className="relative flex h-full w-full flex-col overflow-hidden lg:flex-row">
         <span
           name="icon"
-          className="absolute bottom-10 right-10 h-15 w-15"
+          className="h-15 w-15 absolute bottom-10 right-10"
           onClick={scrollToTop}
         >
           <img src="./icon_button.png" alt="icon" />
         </span>
-        <aside className="hidden lg:block lg:w-[30%] lg:shrink-0">
-          <MapChart
-            topoJSON={topoJsonPath}
-            selectedCandidate={selectedCandidate}
-            selectedYear={selectedYear} //TODO 傳入年份
-            setSelectedCity={setSelectedCity}
-          />
+        <aside className="relative lg:w-[30%] lg:shrink-0">
+          <span className="absolute h-full w-full bg-primary-gray opacity-30 lg:hidden"></span>
+          <div className="h-[150px] w-full overflow-hidden bg-sky-100 lg:h-screen">
+            <MapChart
+              topoJSON={topoJsonPath}
+              selectedCandidate={selectedCandidate}
+              selectedYear={selectedYear}
+              setSelectedCity={setSelectedCity}
+              translate={[1.7, 2]}
+              size={12000}
+            />
+          </div>
+          <span
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer rounded-xl bg-primary-purple px-4 py-2 text-white lg:hidden"
+            onClick={toggleMapVisible}
+          >
+            進入地圖
+          </span>
         </aside>
         <div className="flex-grow overflow-auto">
           <main className="gap-5 px-5 pt-5">

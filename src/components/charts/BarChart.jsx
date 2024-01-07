@@ -7,6 +7,12 @@ export const BarChart = ({ data }) => {
   const margin = { top: 20, right: 0, bottom: 30, left: 60 };
   const noMarginWidth = parentSize.width - margin.left - margin.right;
   const noMarginHeight = parentSize.height - margin.top - margin.bottom;
+  const [tooltip, setTooltip] = useState({
+    visible: false,
+    content: "",
+    x: 0,
+    y: 0,
+  });
 
   useEffect(() => {
     // 確保容器存在並已被渲染
@@ -27,10 +33,6 @@ export const BarChart = ({ data }) => {
       };
     }
   }, [containerRef]); // 關注 containerRef 是否改變，改變就會執行 useEffect
-
-  useEffect(()=>{
-
-  },[data])
 
   // 設定 x 軸 年份 比例尺
   const xScale1 = d3
@@ -60,6 +62,43 @@ export const BarChart = ({ data }) => {
     yOffset: yScale(tick),
   }));
 
+  // 滑鼠滑過顯示
+  const showTooltip = (event, data) => {
+    const content = [data].map((d, i) => {
+      return (
+        <div key={i}>
+          <span className="text-lg font-semibold text-primary-gray">{d.year} 年投票數</span>
+          <ul>
+            {[0, 1, 2].map((i) => {
+              return (
+                <li key={i} className="flex justify-between gap-2">
+                  <span>
+                    <span
+                      className={`inline-block h-3 w-3 rounded-full mr-2 ${d.bgColor[i]}`}
+                    ></span>
+                    <span>{d.partyName[i]}</span>
+                  </span>
+                  <span>{d.values[i]}票</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      );
+    });
+    setTooltip({
+      visible: true,
+      content: content,
+      x: event.clientX,
+      y: event.clientY - 100,
+    });
+  };
+
+  // 滑鼠離開關閉
+  const hideTooltip = () => {
+    setTooltip({ ...tooltip, visible: false });
+  };
+
   return (
     <div ref={containerRef} className="h-full w-full min-w-[500px]">
       <svg width={parentSize.width} height={parentSize.height}>
@@ -84,13 +123,18 @@ export const BarChart = ({ data }) => {
                 <line x2={noMarginWidth} className="stroke stroke-gray-200" />
                 {/* y軸隔線 */}
                 <text x="-10" y="0" dy=".32em" textAnchor="end">
-                  {(tick.value)/10000}萬
+                  {tick.value / 10000}萬
                 </text>
               </g>
             ))}
           </g>
           {data.map((d) => (
-            <g key={d.year} transform={`translate(${xScale1(d.year)},0)`}>
+            <g
+              key={d.year}
+              transform={`translate(${xScale1(d.year)},0)`}
+              onMouseEnter={(e) => showTooltip(e, d)}
+              onMouseLeave={hideTooltip}
+            >
               {d.values.map((value, i) => (
                 <rect
                   key={d.candidate[i]}
@@ -98,13 +142,21 @@ export const BarChart = ({ data }) => {
                   y={yScale(Math.max(0, value))} // 如果 yScale < 0，取 0 為基準，確保 y 不會為負數
                   width={xScale2.bandwidth()}
                   height={Math.abs(yScale(value) - yScale(0))} // 確保為值為正
-                  className={d.color[i]}
+                  className={d.fillColor[i]}
                 />
               ))}
             </g>
           ))}
         </g>
       </svg>
+      {tooltip.visible && (
+        <div
+          className="absolute rounded-lg border bg-white p-3 w-[230px]"
+          style={{ left: tooltip.x, top: tooltip.y }}
+        >
+          {tooltip.content}
+        </div>
+      )}
     </div>
   );
 };

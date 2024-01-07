@@ -76,7 +76,7 @@ const Header = ({
             <select
               name="area"
               id="area"
-              className="h-8 w-1/2 rounded-br-full rounded-tr-full border-x-8 bg-gray-200 font-light"
+              className="h-8 w-1/2 rounded-br-full rounded-tr-full border-x-8 bg-gray-200 font-light text-gray-400"
             >
               <option value="null">維護中</option>
             </select>

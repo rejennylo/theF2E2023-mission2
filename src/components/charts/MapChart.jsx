@@ -6,11 +6,13 @@ export const MapChart = ({
   selectedCandidate,
   selectedYear,
   setSelectedCity,
+  translate,
+  size
 }) => {
   const svgRef = useRef(null);
   const [locations, setLocations] = useState([]);
   
-  // TODO 圖表
+  // 圖表
   useEffect(() => {
     // 定義地圖的寬高
     const svg = d3.select(svgRef.current);
@@ -21,8 +23,8 @@ export const MapChart = ({
     const projection = d3
       .geoMercator() // 繪製投影
       .center([120.9718, 23.9739]) // 台灣中心的經緯度
-      .scale(11000) // 地圖縮放
-      .translate([width / 2.3, height / 2.7]); // 以中心點計算位移參數
+      .scale(size) // 地圖縮放
+      .translate([width / translate[0], height / translate[1]]); // 以中心點計算位移參數
 
     // 創建路徑生成器
     const pathGenerator = d3.geoPath().projection(projection);
@@ -56,10 +58,10 @@ export const MapChart = ({
       });
     svg.call(zoom);
     
-  }, [selectedYear]); //TODO
+  }, [selectedYear]);
 
   return (
-    <div className="h-screen w-full overflow-hidden bg-sky-100">
+    // <div className="h-[150px] lg:h-screen w-full overflow-hidden bg-sky-100">
       <svg ref={svgRef} className="h-full w-full">
         {/* 地圖繪製 */}
         {locations.map((location, i) => (
@@ -100,6 +102,6 @@ export const MapChart = ({
           </g>
         ))}
       </svg>
-    </div>
+    // </div>
   );
 };

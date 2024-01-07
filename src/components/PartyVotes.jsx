@@ -38,7 +38,7 @@ const PartyVotes = ({ lineChartData, barChartData, isVotesData }) => {
       name="party-votes-wrap"
       className="flex w-full flex-col gap-3 lg:flex-row"
     >
-      <Container title="歷屆政黨得票率" partys={isVotesData}>
+      <Container title="歷屆政黨得票數" partys={isVotesData}>
         <BarChart data={barChartData} />
       </Container>
       <Container title="歷年政黨得票率" partys={isVotesData}>
