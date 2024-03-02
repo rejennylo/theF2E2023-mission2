@@ -29,7 +29,7 @@ const Header = ({
           >
             <div className="flex items-center">
               <h1>
-                <a href="/">
+                <a href="/theF2E2023-mission2/">
                   <img src={logoTitle} alt="logo and title" />
                   <span className="hidden">台灣歷年總統 都幾？</span>
                 </a>
