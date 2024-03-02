@@ -62,19 +62,25 @@ export const BarChart = ({ data }) => {
     yOffset: yScale(tick),
   }));
 
+  let setTimeoutId;
+
   // 滑鼠滑過顯示
   const showTooltip = (event, data) => {
+    clearTimeout(setTimeoutId);
+
     const content = [data].map((d, i) => {
       return (
         <div key={i}>
-          <span className="text-lg font-semibold text-primary-gray">{d.year} 年投票數</span>
+          <span className="text-lg font-semibold text-primary-gray">
+            {d.year} 年投票數
+          </span>
           <ul>
             {[0, 1, 2].map((i) => {
               return (
                 <li key={i} className="flex justify-between gap-2">
                   <span>
                     <span
-                      className={`inline-block h-3 w-3 rounded-full mr-2 ${d.bgColor[i]}`}
+                      className={`mr-2 inline-block h-3 w-3 rounded-full ${d.bgColor[i]}`}
                     ></span>
                     <span>{d.partyName[i]}</span>
                   </span>
@@ -96,7 +102,9 @@ export const BarChart = ({ data }) => {
 
   // 滑鼠離開關閉
   const hideTooltip = () => {
-    setTooltip({ ...tooltip, visible: false });
+    setTimeoutId = setTimeout(() => {
+      setTooltip({ ...tooltip, visible: false });
+    }, 500);
   };
 
   return (
@@ -151,7 +159,7 @@ export const BarChart = ({ data }) => {
       </svg>
       {tooltip.visible && (
         <div
-          className="absolute rounded-lg border bg-white p-3 w-[230px]"
+          className="absolute w-[230px] rounded-lg border bg-white p-3"
           style={{ left: tooltip.x, top: tooltip.y }}
         >
           {tooltip.content}

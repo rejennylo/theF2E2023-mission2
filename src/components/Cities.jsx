@@ -20,7 +20,7 @@ const Card = ({ data }) => {
             <img src={data.image} alt="image" className="h-[30px] w-[30px]" />
           </span>
           <span>{data.name}</span>
-          <span className="hidden lg:ml-[19%] lg:block">{data.votes}</span>
+          <span className="hidden lg:ml-[19%] lg:block">{data.vote}</span>
         </span>
       </span>
       <span className="px-5 font-bold text-secondary-gray">{`>`}</span>

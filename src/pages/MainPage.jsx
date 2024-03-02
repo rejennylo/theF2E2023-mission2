@@ -356,7 +356,6 @@ const MainPage = () => {
     // 陣列）所有填色，用於顯示堆疊長條圖
     const fillColor = isyearCandidateData.map((item) => item.fillColor);
     const vote = dataOfCity.map((item) => parseInt(item.votes));
-
     return {
       city: city,
       candidate: candidate,
@@ -372,12 +371,13 @@ const MainPage = () => {
       (candidate) => item.city === candidate.city,
     );
     const vote = Math.max(...item.votes);
-
+    
     return {
       city: item.city,
       candidate: item.candidate,
       value: item.value,
-      votes: vote,
+      vote: vote,
+      votes:item.votes,
       fillColor: item.fillColor,
       name: data[0].name,
       bgColor: data[0].bgColor,
